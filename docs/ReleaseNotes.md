@@ -32,6 +32,9 @@ The included licenses apply to the following files:
 - Added the `DXC_BUILD_STATIC_LIB` CMake option, which also builds dxcompiler
   as a static library (`dxcompiler_static`)
   [#4766](https://github.com/microsoft/DirectXShaderCompiler/issues/4766).
+- `DXC_BUILD_STATIC_LIB` also produces `dxcompiler_static_bundle`, one archive
+  with all static dependencies, which `install-distribution` installs. The
+  option is now on in `PredefinedParams.cmake` and `hctbuild`.
 
 Place release notes for the upcoming release below this line and remove this
 line upon naming the release. Refer to previous for appropriate section names.

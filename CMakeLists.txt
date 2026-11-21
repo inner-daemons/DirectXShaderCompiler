@@ -808,8 +808,25 @@ endif()
 
 include(CoverageReport)
 
+# HLSL Change begin - Bundle dxcompiler_static with its static dependencies.
+if(DXC_BUILD_STATIC_LIB)
+  include(DxcStaticBundle)
+  dxc_add_static_bundle(dxcompiler_static_bundle dxcompiler_static)
+  if(TARGET DxcStaticBundleTests)
+    target_link_libraries(DxcStaticBundleTests
+      "${dxcompiler_static_bundle_FILE}" ${dxcompiler_static_bundle_SYSTEM_LIBS})
+    add_dependencies(DxcStaticBundleTests dxcompiler_static_bundle)
+  endif()
+endif()
+# HLSL Change end - Bundle dxcompiler_static with its static dependencies.
+
 # HLSL Change begin - Set default distribution value.
-set(LLVM_DISTRIBUTION_COMPONENTS "dxc;dxcompiler;dxc-headers" CACHE STRING "")
+set(DXC_DEFAULT_DISTRIBUTION_COMPONENTS "dxc;dxcompiler;dxc-headers")
+if(DXC_BUILD_STATIC_LIB)
+  list(APPEND DXC_DEFAULT_DISTRIBUTION_COMPONENTS dxcompiler_static_bundle)
+endif()
+set(LLVM_DISTRIBUTION_COMPONENTS "${DXC_DEFAULT_DISTRIBUTION_COMPONENTS}"
+    CACHE STRING "")
 # HLSL Change end - Set default distribution value.
 
 # This must be at the end of the LLVM root CMakeLists file because it must run

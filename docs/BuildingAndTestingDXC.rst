@@ -181,7 +181,11 @@ four commonly used option prefixes:
   The library does not replace the global ``operator new``, and on Windows
   consumers must define ``DXC_API_IMPORT`` as empty before including
   ``dxcapi.h``. Linking the target through CMake pulls in its static
-  dependencies.
+  dependencies. For use outside CMake, the option also builds
+  ``dxcompiler_static_bundle``, a single archive containing
+  ``dxcompiler_static`` and all of its static dependencies. The system
+  libraries it still needs are listed in ``dxcompiler_static_bundle.libs``.
+  Both files are part of the ``install-distribution`` target.
 
 Legacy Windows Build Tooling
 ----------------------------
